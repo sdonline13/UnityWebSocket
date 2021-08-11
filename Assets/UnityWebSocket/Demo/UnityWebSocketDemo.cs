@@ -20,14 +20,16 @@ public class UnityWebSocketDemo : MonoBehaviour
         address = "wss://echo.websocket.org";
     }
 #endif
-
+    /// <summary>
+    /// 顯示ui設定
+    /// </summary>
     private void OnGUI()
     {
         var scale = Screen.width / 800f;
         GUI.matrix = Matrix4x4.TRS(new Vector3(0, 0, 0), Quaternion.identity, new Vector3(scale, scale, 1));
         var width = GUILayout.Width(Screen.width / scale - 10);
 
-        WebSocketState state = socket == null ? WebSocketState.Closed : socket.ReadyState;
+        WebSocketState state = socket == null ? WebSocketState.Closed : socket.ReadyState;//判斷當前 WebSocket狀況
 
         GUILayout.Label("SDK Version: 2.5.0", width);
         var stateColor = state == WebSocketState.Closed ? "red" : state == WebSocketState.Open ? "#11ff11" : "#aa4444";
@@ -42,7 +44,7 @@ public class UnityWebSocketDemo : MonoBehaviour
         GUI.enabled = state == WebSocketState.Closed;
         if (GUILayout.Button(state == WebSocketState.Connecting ? "Connecting..." : "Connect"))
         {
-            socket = new WebSocket(address);
+            socket = new WebSocket(address);//連接至 webSocket
             socket.OnOpen += Socket_OnOpen;
             socket.OnMessage += Socket_OnMessage;
             socket.OnClose += Socket_OnClose;
